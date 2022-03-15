@@ -73,6 +73,7 @@ public:
 
 		//绘制网格
 		glBindVertexArray(VAO);
+		//以网格模式展示
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);

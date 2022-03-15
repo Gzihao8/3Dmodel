@@ -110,9 +110,10 @@ int main()
 	//绘制鼠标点击的顶点，绘制成红色
 	Shader redVertexShader("../Shader/vs/object.vs", "../Shader/fs/redVertex.fs");
 
-	//模型
+	//导入模型
 	//Model ourModel("../Model/building/building.obj");
-	Model ourModel("../Model/baseboard.stl");
+	//Model ourModel("../Model/baseboard.stl");
+	Model ourModel("../Model/wanxiangjie.stl");
 	//Model ourModel("../Model/nanosuit.obj");
 
 	//将模型内的顶点保存出来，用于鼠标点击中判断点中哪个点
@@ -176,6 +177,7 @@ int main()
 		objectShader.setFloat("pointLight.constant", 1.0f);
 		objectShader.setFloat("pointLight.linear", 0.09f);
 		objectShader.setFloat("pointLight.quadratic", 0.032f);
+		//渲染模型，包括光影效果
 		ourModel.DrawMesh(objectShader);
 
 		//用blueVertexShader渲染模型的顶点
@@ -183,7 +185,7 @@ int main()
 		blueVertexShader.setMat4("projection", projection);
 		blueVertexShader.setMat4("view", view);
 		blueVertexShader.setMat4("model", model);
-		//ourModel.DrawVertex(blueVertexShader);
+		ourModel.DrawVertex(blueVertexShader);
 
 		//渲染鼠标点击选中的顶点
 		if ((mousePickAbsorbMode || mousePickFreeMode) && mouseVertices.size() != 0)
