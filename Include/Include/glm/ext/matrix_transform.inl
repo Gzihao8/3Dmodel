@@ -1,3 +1,4 @@
+#include<iostream>
 namespace glm
 {
 	template<typename genType>
@@ -102,7 +103,9 @@ namespace glm
 		vec<3, T, Q> const s(normalize(cross(f, up)));
 		vec<3, T, Q> const u(cross(s, f));
 
+
 		mat<4, 4, T, Q> Result(1);
+
 		Result[0][0] = s.x;
 		Result[1][0] = s.y;
 		Result[2][0] = s.z;
@@ -115,6 +118,7 @@ namespace glm
 		Result[3][0] =-dot(s, eye);
 		Result[3][1] =-dot(u, eye);
 		Result[3][2] = dot(f, eye);
+
 		return Result;
 	}
 

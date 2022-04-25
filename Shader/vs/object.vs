@@ -13,7 +13,9 @@ uniform mat4 projection;
 
 void main()
 {
-    TexCoords = aTexCoords;    
+    TexCoords = aTexCoords;
+	//物体坐标系——>世界坐标系——>摄像机坐标系——>屏幕坐标系
+	//三维点坐标——————————————————>屏幕像素点坐标
     gl_Position = projection * view * model * vec4(aPos, 1.0);
 	FragPos = vec3(model * vec4(aPos,1));
 	Normal = mat3(transpose(inverse(model))) * aNormal;

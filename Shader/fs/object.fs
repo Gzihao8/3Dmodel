@@ -52,7 +52,7 @@ void main()
 
 	vec3 result;
 	//定向光照
-	//result = CalcDirLight(dirlight,norm,viewDir);
+	result = CalcDirLight(dirlight,norm,viewDir);
 	//点光源
 	result = CalcPointLight(pointLight,norm,FragPos,viewDir);
 

@@ -35,7 +35,7 @@ const float ZOOM = 45.0f;
 //摄像机类
 class SphereCamera
 {
-	//属性
+//属性
 public:
 	glm::vec3 Position;
 	glm::vec3 Front;
@@ -169,15 +169,14 @@ private:
 		//当天顶角＞180时，摄像机上方向需取反，否则画面会产生突变
 		if (Zenith > 180)
 		{
-			Right = glm::normalize(glm::cross(Front, WorldUp));
-			Up = -glm::normalize(glm::cross(Right, Front));
+			Right = -glm::normalize(glm::cross(Front, WorldUp));
+			Up = glm::normalize(glm::cross(Right, Front));
 		}
 		else
 		{
 			Right = glm::normalize(glm::cross(Front, WorldUp));
 			Up = glm::normalize(glm::cross(Right, Front));
 		}
-
 	}
 };
 #endif

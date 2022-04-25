@@ -113,8 +113,10 @@ int main()
 	//导入模型
 	//Model ourModel("../Model/building/building.obj");
 	//Model ourModel("../Model/baseboard.stl");
-	Model ourModel("../Model/wanxiangjie.stl");
+	//Model ourModel("../Model/wanxiangjie.stl");
+	Model ourModel("../Model/chamber_4.0.stl");
 	//Model ourModel("../Model/nanosuit.obj");
+	//Model ourModel("../Model/colorized.ply");
 
 	//将模型内的顶点保存出来，用于鼠标点击中判断点中哪个点
 	for (int i = 0; i < ourModel.meshes.size(); i++)
@@ -185,7 +187,7 @@ int main()
 		blueVertexShader.setMat4("projection", projection);
 		blueVertexShader.setMat4("view", view);
 		blueVertexShader.setMat4("model", model);
-		ourModel.DrawVertex(blueVertexShader);
+		//ourModel.DrawVertex(blueVertexShader);
 
 		//渲染鼠标点击选中的顶点
 		if ((mousePickAbsorbMode || mousePickFreeMode) && mouseVertices.size() != 0)
@@ -209,7 +211,7 @@ int main()
 			glEnableVertexAttribArray(0);//这里的0应该是顶点着色器中location=0中的0
 
 			//解绑顶点缓冲对象
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			//解绑顶点数组对象
 			glBindVertexArray(0);
@@ -255,10 +257,10 @@ void processInput(GLFWwindow *window)
 		//清空元素，但不回收空间
 		mouseVertices.clear();
 	}
-	//U键控制进入鼠标吸附拣选模式
+	//U键控制进入自由绘制模式
 	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
 		mousePickFreeMode = true;
-	//I键退出鼠标吸附拣选模式，并清空选中的顶点
+	//I键退出自由绘制模式，并清空选中的顶点
 	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
 	{
 		mousePickFreeMode = false;
@@ -340,13 +342,15 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		glm::mat4 modelView = view * model;
 		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 		{
+			//逆投影得到近平面上的点
 			glm::vec3 objectPosition = glm::unProject(glm::vec3(lastX, SCR_HEIGHT - lastY, 0.0), view, projection, glm::vec4(0.0f, 0.0f, SCR_WIDTH, SCR_HEIGHT));
-
+			//逆投影得到远平面上的点
 			glm::vec3 objectPosition2 = glm::unProject(glm::vec3(lastX, SCR_HEIGHT - lastY, 1.0), view, projection, glm::vec4(0.0f, 0.0f, SCR_WIDTH, SCR_HEIGHT));
 
 			//鼠标点击后渲染上颜色的距离直线最近的顶点
 			double minDistance = DBL_MAX;
 			glm::vec3 closestPoint;
+			//遍历所有顶点，寻找与直线距离最近的点
 			for (int i = 0; i < modelVertices.size(); i++)
 			{
 				glm::vec3 point;
@@ -366,6 +370,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 			mouseVertex.Position.y = closestPoint.y;
 			mouseVertex.Position.z = closestPoint.z;
 			cout << "(" << closestPoint.x << "," << closestPoint.y << "," << closestPoint.z << ")" << endl;
+			//将找到的顶点的坐标添加进全局变量中，准备用于渲染成其他颜色
 			mouseVertices.push_back(mouseVertex);
 		}
 	}
